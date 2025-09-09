@@ -17,6 +17,11 @@
     <td th:text="${b.isbn}">ISBN</td>
     <td th:text="${b.publicationYear}">Year</td>
     <td th:text="${T(java.lang.String).format(T(java.util.Locale).US, '%.2f', b.price)}">0.00</td>
+    <td>
+      <a th:href="@{'/delete/' + ${b.id}}">Delete</a>
+      &nbsp;|&nbsp;
+      <a th:href="@{'/edit/' + ${b.id}}">Edit</a>
+    </td>
   </tr>
   </tbody>
 </table>
