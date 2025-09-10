@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+
 
 
 
@@ -45,6 +45,7 @@ public class BookController {
         repo.deleteById(id);
         return "redirect:/booklist";
     }
+
     @GetMapping("/edit/{id}")
     public String editForm(@PathVariable Long id, Model model) {
        Book book = repo.findById(id)
@@ -52,6 +53,13 @@ public class BookController {
             model.addAttribute("book", book);
             return "editbook";
     }
+    
+    @PostMapping("/update")
+    public String update(@ModelAttribute("book") Book book) {
+        repo.save(book);
+        return "redirect:booklist";
+    }
+
     
     
     
