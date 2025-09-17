@@ -19,12 +19,14 @@ public class BookController {
         this.categoryRepository = categoryRepository;
     }
 
+    // Show all books
     @GetMapping("/booklist")
     public String bookList(Model model) {
         model.addAttribute("books", bookRepository.findAll());
         return "booklist";
     }
 
+    // Show add form
     @GetMapping("/addbook")
     public String addBookForm(Model model) {
         model.addAttribute("book", new Book());
@@ -32,23 +34,28 @@ public class BookController {
         return "addbook";
     }
 
+    // Save new book
     @PostMapping("/save")
-    public String saveBook(@ModelAttribute Book book, @RequestParam Long categoryId) {
-        Category category = categoryRepository.findById(categoryId);
-        book.setCategory(category);
+    public String saveBook(@ModelAttribute Book book) {
+        if (book.getCategory() != null && book.getCategory().getId() != null) {
+            Category category = categoryRepository.findById(book.getCategory().getId());
+            book.setCategory(category);
+        }
         bookRepository.save(book);
         return "redirect:/booklist";
     }
 
+    // Delete book
     @GetMapping("/delete/{id}")
     public String deleteBook(@PathVariable("id") Long id) {
         bookRepository.deleteById(id);
         return "redirect:/booklist";
     }
 
+    // Show edit form
     @GetMapping("/edit/{id}")
     public String editBook(@PathVariable("id") Long id, Model model) {
-        Book book = bookRepository.findById(id);  // returns Book directly
+        Book book = bookRepository.findById(id);
         if (book != null) {
             model.addAttribute("book", book);
             model.addAttribute("categories", categoryRepository.findAll());
@@ -58,6 +65,7 @@ public class BookController {
         }
     }
 
+    // Update book
     @PostMapping("/update")
     public String updateBook(@ModelAttribute Book book, @RequestParam Long categoryId) {
         Category category = categoryRepository.findById(categoryId);
