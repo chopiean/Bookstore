@@ -1,43 +1,16 @@
 package fi.haagahelia.bookstore.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-
-@Entity
 public class Book {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-
     private String title;
     private String author;
     private int publicationYear;
     private String isbn;
     private double price;
+    private Category category; 
 
-    // Many Books -> One Category
-    @ManyToOne
-    @JoinColumn(name = "categoryid")
-    private Category category;
+    public Book() {}
 
-    public Book() {
-    }
-
-    // Constructor without category (still works if you don’t assign category yet)
-    public Book(String title, String author, int publicationYear, String isbn, double price) {
-        this.title = title;
-        this.author = author;
-        this.publicationYear = publicationYear;
-        this.isbn = isbn;
-        this.price = price;
-    }
-
-    // Constructor with category (useful for seeding demo data)
     public Book(String title, String author, int publicationYear, String isbn, double price, Category category) {
         this.title = title;
         this.author = author;

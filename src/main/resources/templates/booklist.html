@@ -20,8 +20,10 @@
             <th>Author</th>
             <th>Title</th>
             <th>ISBN</th>
-            <th>Year</th>
+            <th>Publication Year</th>
             <th>Price</th>
+            <th>Category</th>
+            <th>Actions</th>
           </tr>
         </thead>
         <tbody>
@@ -36,7 +38,7 @@
               0.00
             </td>
             <td th:text="${b.category != null ? b.category.name : '_'}">
-              category
+              Category
             </td>
             <td>
               <a class="btn btn-danger btn-sm" th:href="@{'/delete/' + ${b.id}}"
@@ -52,6 +54,7 @@
           </tr>
         </tbody>
       </table>
+
       <p><a class="btn btn-success" th:href="@{/addbook}">Add Book</a></p>
     </div>
   </body>

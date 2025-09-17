@@ -19,15 +19,22 @@ public class BookstoreApplication {
     }
 
     @Bean
-    CommandLineRunner initData(BookRepository bookRepo, CategoryRepository categoryRepo) {
-        return args -> {
-            Category programming = categoryRepo.save(new Category("Programming"));
-            Category design = categoryRepo.save(new Category("Design"));
-            Category fiction = categoryRepo.save(new Category("Fiction"));
+    public CommandLineRunner demo(BookRepository bookRepo, CategoryRepository categoryRepo) {
+    return (args) -> {
+        if (categoryRepo.count() == 0) {
+            categoryRepo.save(new Category("Programming"));
+            categoryRepo.save(new Category("Databases"));
+            categoryRepo.save(new Category("Fiction"));
+        }
 
-            bookRepo.save(new Book("Clean Code", "Robert C. Martin", 2008, "9780132350884", 39.90, programming));
-            bookRepo.save(new Book("Effective Imagination", "Joshua Bloch", 2018, "9780134685991", 44.90, fiction));
-            bookRepo.save(new Book("Refactoring", "Martin Fowler", 1999, "9780201485677", 42.00, design));
-        };
-    }
+        if (bookRepo.count() == 0) {
+            Category prog = categoryRepo.findByName("Programming");
+            Category db = categoryRepo.findByName("Databases");
+
+            bookRepo.save(new Book("Clean Code", "Robert C. Martin", 2008, "9780132350884", 39.99, prog));
+            bookRepo.save(new Book("Effective Java", "Joshua Bloch", 2018, "9780134685991", 45.00, prog));
+            bookRepo.save(new Book("SQL Fundamentals", "John Patrick", 2005, "9780137126026", 29.95, db));
+        }
+    };
+}
 }
