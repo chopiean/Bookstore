@@ -2,65 +2,64 @@ package fi.haagahelia.bookstore.controller;
 
 import fi.haagahelia.bookstore.model.Book;
 import fi.haagahelia.bookstore.repository.BookRepository;
+import fi.haagahelia.bookstore.repository.CategoryRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-
-
-
-
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 public class BookController {
 
-    private final BookRepository repo;
+    private final BookRepository bookRepository;
+    private final CategoryRepository categoryRepository;
 
-    public BookController(BookRepository repo) {
-        this.repo = repo;
+    
+    public BookController(BookRepository bookRepository, CategoryRepository categoryRepository) {
+        this.bookRepository = bookRepository;
+        this.categoryRepository = categoryRepository;
     }
 
     @GetMapping("/booklist")
     public String showBookList(Model model) {
-        model.addAttribute("books", repo.findAll());
-        return "booklist"; 
+        model.addAttribute("books", bookRepository.findAll());
+        return "booklist";
     }
 
     @GetMapping("/addbook")
     public String addBookForm(Model model) {
         model.addAttribute("book", new Book());
+        model.addAttribute("categories", categoryRepository.findAll()); 
         return "addbook";
     }
 
     @PostMapping("/save")
     public String saveBook(@ModelAttribute Book book) {
-       repo.save(book);
-       return "redirect:/booklist";
+    if (book.getCategory() != null && book.getCategory().getId() != null) {
+        book.setCategory(categoryRepository.findById(book.getCategory().getId()).orElse(null));
     }
-    
+    bookRepository.save(book);
+    return "redirect:/booklist";
+}
+
     @GetMapping("/delete/{id}")
     public String deleteBook(@PathVariable("id") Long id) {
-        repo.deleteById(id);
+        bookRepository.deleteById(id);
         return "redirect:/booklist";
     }
 
     @GetMapping("/edit/{id}")
-    public String editForm(@PathVariable Long id, Model model) {
-       Book book = repo.findById(id)
-            .orElseThrow(() -> new IllegalArgumentException("Invalid book id:" + id));
-            model.addAttribute("book", book);
-            return "editbook";
-    }
-    
-    @PostMapping("/update")
-    public String update(@ModelAttribute("book") Book book) {
-        repo.save(book);
-        return "redirect:booklist";
+    public String editBook(@PathVariable("id") Long id, Model model) {
+        model.addAttribute("book", bookRepository.findById(id).orElse(null));
+        model.addAttribute("categories", categoryRepository.findAll()); // add dropdown data
+        return "editbook";
     }
 
-    
-    
-    
+    @PostMapping("/update")
+    public String updateBook(@ModelAttribute Book book) {
+    if (book.getCategory() != null && book.getCategory().getId() != null) {
+        book.setCategory(categoryRepository.findById(book.getCategory().getId()).orElse(null));
+    }
+    bookRepository.save(book);
+    return "redirect:/booklist";
+}
 }

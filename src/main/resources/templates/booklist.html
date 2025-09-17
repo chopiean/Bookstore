@@ -1,37 +1,58 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-  <meta charset="UTF-8"/>
-  <title>Books</title>
-  <link type="text/css" rel="stylesheet" href="/css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}">
-</head>
-<body class="bg-light">
-<div class="container mt-4">
-  <h1 class="mb-3">Books</h1>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Books</title>
+    <link
+      type="text/css"
+      rel="stylesheet"
+      href="/css/bootstrap.min.css"
+      th:href="@{/css/bootstrap.min.css}"
+    />
+  </head>
+  <body class="bg-light">
+    <div class="container mt-4">
+      <h1 class="mb-3">Books</h1>
 
-  <table class="table table-striped">
-    <thead>
-    <tr><th>Author</th><th>Title</th><th>ISBN</th><th>Year</th><th>Price</th></tr>
-    </thead>
-    <tbody>
-    <tr th:each="b : ${books}">
-      <td th:text="${b.author}">Author</td>
-      <td th:text="${b.title}">Title</td>
-      <td th:text="${b.isbn}">ISBN</td>
-      <td th:text="${b.publicationYear}">Year</td>
-      <td th:text="${T(java.lang.String).format(T(java.util.Locale).US, '%.2f', b.price)}">0.00</td>
-      <td>
-        <a class="btn btn-danger btn-sm" 
-            th:href="@{'/delete/' + ${b.id}}">Delete</a>
-        &nbsp;|&nbsp;
-        <a class="btn btn-outline-primary btn-sm me-1"th:href="@{'/edit/' + ${b.id}}">Edit</a>
-      </td>
-    </tr>
-    </tbody>
-  </table>
-  <p><a class="btn btn-success" 
-    th:href="@{/addbook}">Add Book</a></p>
-</div>
-
-</body>
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Author</th>
+            <th>Title</th>
+            <th>ISBN</th>
+            <th>Year</th>
+            <th>Price</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr th:each="b : ${books}">
+            <td th:text="${b.author}">Author</td>
+            <td th:text="${b.title}">Title</td>
+            <td th:text="${b.isbn}">ISBN</td>
+            <td th:text="${b.publicationYear}">Year</td>
+            <td
+              th:text="${T(java.lang.String).format(T(java.util.Locale).US, '%.2f', b.price)}"
+            >
+              0.00
+            </td>
+            <td th:text="${b.category != null ? b.category.name : '_'}">
+              category
+            </td>
+            <td>
+              <a class="btn btn-danger btn-sm" th:href="@{'/delete/' + ${b.id}}"
+                >Delete</a
+              >
+              &nbsp;|&nbsp;
+              <a
+                class="btn btn-outline-primary btn-sm me-1"
+                th:href="@{'/edit/' + ${b.id}}"
+                >Edit</a
+              >
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <p><a class="btn btn-success" th:href="@{/addbook}">Add Book</a></p>
+    </div>
+  </body>
 </html>
