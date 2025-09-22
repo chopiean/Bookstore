@@ -11,7 +11,7 @@ public class Book {
     private Long id;
     private String title;
     private String author;
-    private int publicationYear;
+    private Integer publicationYear;
     private String isbn;
     private double price;
 
@@ -34,7 +34,7 @@ public class Book {
     public Long getId() { return id; }
     public String getTitle() { return title; }
     public String getAuthor() { return author; }
-    public int getPublicationYear() { return publicationYear; }
+    public Integer getPublicationYear() { return publicationYear; }
     public String getIsbn() { return isbn; }
     public double getPrice() { return price; }
     public Category getCategory() { return category; }
