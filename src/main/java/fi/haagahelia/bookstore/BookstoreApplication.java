@@ -4,6 +4,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Profile;
 
 import fi.haagahelia.bookstore.model.Book;
 import fi.haagahelia.bookstore.model.Category;
@@ -19,6 +20,7 @@ public class BookstoreApplication {
     }
 
     @Bean
+    @Profile("!test")
     public CommandLineRunner demo(BookRepository bookRepo, CategoryRepository categoryRepo) {
     return (args) -> {
         if (categoryRepo.count() == 0) {

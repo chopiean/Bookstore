@@ -1,12 +1,22 @@
 package fi.haagahelia.bookstore.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import jakarta.persistence.*;
+
+@Entity
 public class Book {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String title;
     private String author;
     private int publicationYear;
     private String isbn;
     private double price;
+
+    @ManyToOne
+    @JsonIgnoreProperties("books")
     private Category category; 
 
     public Book() {}

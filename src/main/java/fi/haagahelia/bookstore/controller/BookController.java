@@ -52,7 +52,6 @@ public class BookController {
         return "redirect:/booklist";
     }
 
-    // Show edit form
     @GetMapping("/edit/{id}")
     public String editBook(@PathVariable("id") Long id, Model model) {
         Book book = bookRepository.findById(id);
@@ -65,7 +64,6 @@ public class BookController {
         }
     }
 
-    // Update book
     @PostMapping("/update")
     public String updateBook(@ModelAttribute Book book, @RequestParam Long categoryId) {
         Category category = categoryRepository.findById(categoryId);
@@ -74,3 +72,4 @@ public class BookController {
         return "redirect:/booklist";
     }
 }
+
