@@ -7,6 +7,10 @@ import fi.haagahelia.bookstore.repository.CategoryRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
 
 @Controller
 public class BookController {
@@ -46,6 +50,7 @@ public class BookController {
     }
 
     // Delete book
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/delete/{id}")
     public String deleteBook(@PathVariable("id") Long id) {
         bookRepository.deleteById(id);
