@@ -9,13 +9,13 @@ import java.util.List;
 public class Category {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String name;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "category")
-    @JsonIgnoreProperties("category")  // prevent infinite loop (Book → Category → Book…)
+    @JsonIgnoreProperties("category")  
     private List<Book> books;
 
     public Category() {}
